@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Отзывы — SmartPillowStore</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fb;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #0e3b6c;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #145ea8;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #cfe6ff;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #0e3b6c;
+      font-size: 2.2em;
+      animation: fadeInDown 0.6s ease-out;
+      position: relative;
+    }
+
+    .section h2::after {
+      content: "";
+      display: block;
+      margin: 15px auto 0;
+      width: 60px;
+      height: 3px;
+      background: #145ea8;
+      border-radius: 3px;
+    }
+
+    .reviews {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .review-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 25px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.1);
+    }
+
+    .review-card h3 {
+      margin: 0 0 10px;
+      color: #0e3b6c;
+      font-size: 1.2em;
+    }
+
+    .stars {
+      color: #ffc107;
+      margin: 5px 0 10px;
+      font-size: 1.2em;
+    }
+
+    .review-text {
+      line-height: 1.6;
+      margin-top: 10px;
+    }
+
+    .add-review-button {
+      margin: 40px auto 0;
+      display: block;
+      background-color: #145ea8;
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      animation: fadeIn 0.8s ease-out;
+    }
+
+    .add-review-button:hover {
+      background-color: #0e3b6c;
+      transform: translateY(-2px);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #0e3b6c;
+      font-size: 1.5em;
+    }
+
+    .modal-content input,
+    .modal-content textarea {
+      width: 100%;
+      margin: 15px 0;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    .modal-content input:focus,
+    .modal-content textarea:focus {
+      border-color: #145ea8;
+      outline: none;
+    }
+
+    .modal-content textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    .modal-content button {
+      background-color: #145ea8;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #0e3b6c;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .thank-you {
+      text-align: center;
+      color: #0e3b6c;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1.1em;
+      display: none;
+    }
+
+    footer {
+      background-color: #0e3b6c;
+      color: white;
+      text-align: center;
+      padding: 20px 40px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        gap: 15px;
+      }
+      
+      .review-card {
+        padding: 20px;
+      }
+      
+      .modal-content {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SmartPillowStore</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="reviews.html">Отзывы</a>
+    <a href="about.html">О нас</a>
+    <a href="contact.html">Контакты</a>
+  </nav>
+
+  <section class="section">
+    <h2>Отзывы наших клиентов</h2>
+    <div class="reviews">
+      <div class="review-card">
+        <h3>Алексей — SmartSleep X1</h3>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="review-text">Подушка реально помогает спать лучше! Храп исчез уже через неделю. Очень доволен!</div>
+      </div>
+      <div class="review-card">
+        <h3>Елена — DreamCloud S3</h3>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="review-text">Удобная и мягкая, а приложение — просто находка. Теперь я вижу свои фазы сна и чувствую себя бодрой.</div>
+      </div>
+      <div class="review-card">
+        <h3>Игорь — RelaxPro</h3>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="review-text">Массаж и тепло — то, что нужно после рабочего дня. Засыпаю моментально!</div>
+      </div>
+      <div class="review-card">
+        <h3>Марина — SmartSleep X1</h3>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="review-text">Очень крутая подушка! Подарила мужу, теперь сама тоже хочу такую. Храп ушёл, настроение улучшилось.</div>
+      </div>
+      <div class="review-card">
+        <h3>Владислав — DreamCloud S3</h3>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <div class="review-text">Эргономика отличная. Шея утром не болит, спина в норме. Покупкой доволен на 100%!</div>
+      </div>
+    </div>
+
+    <button class="add-review-button" onclick="openModal()">Оставить отзыв</button>
+  </section>
+
+  <div class="modal" id="reviewModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>Оставить отзыв</h3>
+      <input type="text" id="name" placeholder="Ваше имя" />
+      <input type="text" id="product" placeholder="Название подушки" />
+      <textarea id="feedback" placeholder="Ваш отзыв"></textarea>
+      <button onclick="submitReview()">Отправить отзыв</button>
+      <div class="thank-you" id="thankYou">Спасибо за отзыв!</div>
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 SmartPillowStore — Все права защищены</p>
+    <p>Политика конфиденциальности | Пользовательское соглашение</p>
+  </footer>
+
+  <script>
+    function openModal() {
+      document.getElementById('reviewModal').style.display = 'flex';
+      document.getElementById('thankYou').style.display = 'none';
+    }
+
+    function closeModal() {
+      document.getElementById('reviewModal').style.display = 'none';
+    }
+
+    function submitReview() {
+      document.getElementById('thankYou').style.display = 'block';
+      document.getElementById('name').value = '';
+      document.getElementById('product').value = '';
+      document.getElementById('feedback').value = '';
+      
+      // Автоматическое закрытие через 2 секунды
+      setTimeout(() => {
+        closeModal();
+      }, 2000);
+    }
+
+    // Close modal on outside click
+    window.onclick = function(event) {
+      const modal = document.getElementById('reviewModal');
+      if (event.target === modal) {
+        closeModal();
+      }
+    }
+  </script>
+</body>
+</html>

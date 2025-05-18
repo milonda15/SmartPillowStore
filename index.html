@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SmartPillowStore — умные подушки для сна</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fb;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header, footer {
+      background-color: #0e3b6c;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #145ea8;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #cfe6ff;
+    }
+
+    .hero {
+      background: linear-gradient(to right, rgba(255,255,255,0.9), rgba(255,255,255,0.85)),
+                  url('https://images.unsplash.com/photo-1587305296481-e8c40a9d41bf') no-repeat center/cover;
+      text-align: center;
+      padding: 100px 20px;
+      animation: fadeIn 1s ease-out;
+    }
+
+    .hero h1 {
+      color: #145ea8;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    .hero p {
+      color: #145ea8;
+      font-size: 1.4em;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #0e3b6c;
+      font-size: 2.2em;
+      animation: fadeInDown 0.6s ease-out;
+    }
+
+    .products {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      justify-content: center;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      padding: 25px;
+      width: 280px;
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.1);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+
+    .product-card h3 {
+      margin-top: 0;
+      font-size: 1.3em;
+      color: #0e3b6c;
+    }
+
+    .product-card p {
+      font-size: 0.95em;
+      margin: 15px 0;
+    }
+
+    .price {
+      font-weight: bold;
+      font-size: 1.2em;
+      margin-bottom: 20px;
+      color: #145ea8;
+    }
+
+    .request-button {
+      background-color: #145ea8;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+
+    .request-button:hover {
+      background-color: #0e3b6c;
+    }
+
+    .cta {
+      background-color: #e6f0ff;
+      text-align: center;
+      padding: 60px 20px;
+      margin: 40px 0;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.05);
+      animation: fadeIn 1s ease-out;
+    }
+
+    .cta h2 {
+      color: #0e3b6c;
+      margin-bottom: 20px;
+    }
+
+    .cta p {
+      font-size: 1.1em;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0,0,0,0.6);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+
+    .modal-content {
+      background: white;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 400px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+      text-align: center;
+      animation: fadeInUp 0.4s ease-out;
+    }
+
+    .modal-content input {
+      width: 90%;
+      padding: 12px;
+      margin: 12px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .modal-content button {
+      background-color: #145ea8;
+      color: white;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #0e3b6c;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 1.3em;
+      cursor: pointer;
+      color: #666;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .thank-you {
+      color: #2e7d32;
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 1.1em;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .hero h1 {
+        font-size: 2.2em;
+      }
+      
+      .hero p {
+        font-size: 1.1em;
+      }
+      
+      .products {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .product-card {
+        width: 100%;
+        max-width: 350px;
+      }
+      
+      nav {
+        gap: 15px;
+        padding: 10px;
+      }
+      
+      nav a {
+        font-size: 1em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SmartPillowStore</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="reviews.html">Отзывы</a>
+    <a href="about.html">О нас</a>
+    <a href="contact.html">Контакты</a>
+  </nav>
+
+  <section class="hero">
+    <h1>Спите умно. Живите лучше.</h1>
+    <p>Подушки с ИИ, контролем сна и терморегуляцией — в вашем доме уже сегодня</p>
+  </section>
+
+  <section class="section">
+    <h2>🔥 Актуальные предложения</h2>
+    <div class="products">
+      <div class="product-card">
+        <img src="pillow1.jpg" alt="SmartSleep X1">
+        <h3>SmartSleep X1</h3>
+        <p>Функции сна, антихрап и Bluetooth-связь.</p>
+        <p class="price">6 990 ₽</p>
+        <button class="request-button" onclick="openModal()">Оставить заявку</button>
+      </div>
+      <div class="product-card">
+        <img src="pillow2.jpg" alt="RelaxPro" class="product-image">
+        <h3>RelaxPro</h3>
+        <p>Массаж, тепло и засыпание за 5 минут.</p>
+        <p class="price">8 490 ₽</p>
+        <button class="request-button" onclick="openModal()">Оставить заявку</button>
+      </div>
+      <div class="product-card">
+        <img src="pillow3.jpg" alt="DreamCloud S3" class="product-image">
+        <h3>DreamCloud S3</h3>
+        <p>Синхронизация с приложением, эргономика.</p>
+        <p class="price">7 250 ₽</p>
+        <button class="request-button" onclick="openModal()">Оставить заявку</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta">
+    <h2>Сделайте первый шаг к здоровому сну</h2>
+    <p>Оформите заказ за 2 минуты и получите бесплатную доставку по всей России!</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SmartPillowStore — Все права защищены</p>
+    <p>Политика конфиденциальности | Пользовательское соглашение</p>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="close-btn" onclick="closeModal()">✖</div>
+      <h3>Оставьте заявку</h3>
+      <input type="text" id="name" placeholder="Ваше имя" required>
+      <input type="tel" id="phone" placeholder="Номер телефона" required>
+      <button onclick="submitForm()">Отправить</button>
+      <div class="thank-you" id="thankYou" style="display:none;">Спасибо за заявку!</div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
+      document.getElementById('thankYou').style.display = 'none';
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+
+      if (name && phone) {
+        document.getElementById('thankYou').style.display = 'block';
+        setTimeout(closeModal, 2000);
+      }
+    }
+  </script>
+
+</body>
+</html>

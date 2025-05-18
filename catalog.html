@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Каталог — SmartPillowStore</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f8fb;
+      color: #333;
+      overflow-x: hidden;
+    }
+
+    header {
+      background-color: #0e3b6c;
+      color: white;
+      padding: 20px 40px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #145ea8;
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      padding: 12px;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1em;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #cfe6ff;
+    }
+
+    .section {
+      max-width: 1200px;
+      margin: auto;
+      padding: 40px 20px;
+    }
+
+    .section h2 {
+      text-align: center;
+      margin-bottom: 40px;
+      color: #0e3b6c;
+      font-size: 2.2em;
+      animation: fadeInDown 0.6s ease-out;
+      position: relative;
+    }
+
+    .section h2::after {
+      content: "";
+      display: block;
+      margin: 15px auto 0;
+      width: 60px;
+      height: 3px;
+      background: #145ea8;
+      border-radius: 3px;
+    }
+
+    .products {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    .product-card {
+      background-color: white;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      overflow: hidden;
+      display: flex;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: fadeInUp 0.8s ease-out;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.1);
+    }
+
+    .product-image {
+      width: 280px;
+      height: 280px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .product-content {
+      flex: 1;
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .product-content h3 {
+      margin: 0 0 10px;
+      color: #0e3b6c;
+      font-size: 1.6em;
+    }
+
+    .product-content p {
+      margin: 8px 0;
+      line-height: 1.6;
+    }
+
+    .product-features {
+      margin: 15px 0;
+      padding-left: 20px;
+    }
+
+    .product-features li {
+      margin-bottom: 8px;
+    }
+
+    .product-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: auto;
+    }
+
+    .product-price {
+      font-size: 1.5em;
+      font-weight: bold;
+      color: #0e3b6c;
+    }
+
+    .request-button {
+      background-color: #145ea8;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .request-button:hover {
+      background-color: #0e3b6c;
+      transform: translateY(-2px);
+    }
+
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-color: rgba(0,0,0,0.4);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      animation: fadeIn 0.3s ease-out;
+    }
+
+    .modal-content {
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 16px;
+      max-width: 450px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+    }
+
+    .modal-content h3 {
+      margin-top: 0;
+      text-align: center;
+      color: #0e3b6c;
+      font-size: 1.5em;
+    }
+
+    .modal-content input {
+      width: 100%;
+      margin: 15px 0;
+      padding: 12px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 1em;
+      transition: border-color 0.3s;
+    }
+
+    .modal-content input:focus {
+      border-color: #145ea8;
+      outline: none;
+    }
+
+    .modal-content button {
+      background-color: #145ea8;
+      color: white;
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 1.1em;
+      cursor: pointer;
+      width: 100%;
+      transition: background-color 0.3s;
+    }
+
+    .modal-content button:hover {
+      background-color: #0e3b6c;
+    }
+
+    .close-btn {
+      position: absolute;
+      top: 15px;
+      right: 20px;
+      font-size: 24px;
+      cursor: pointer;
+      color: #888;
+      transition: color 0.3s;
+    }
+
+    .close-btn:hover {
+      color: #333;
+    }
+
+    .thank-you {
+      text-align: center;
+      color: #0e3b6c;
+      font-weight: bold;
+      margin-top: 15px;
+      font-size: 1.1em;
+      display: none;
+    }
+
+    footer {
+      background-color: #0e3b6c;
+      color: white;
+      text-align: center;
+      padding: 20px 40px;
+      margin-top: 60px;
+    }
+
+    footer p {
+      margin: 8px 0;
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      .product-card {
+        flex-direction: column;
+      }
+      
+      .product-image {
+        width: 100%;
+        height: 200px;
+      }
+      
+      nav {
+        gap: 15px;
+      }
+      
+      .modal-content {
+        padding: 20px 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>SmartPillowStore</h1>
+  </header>
+
+  <nav>
+    <a href="index.html">Главная</a>
+    <a href="catalog.html">Каталог</a>
+    <a href="reviews.html">Отзывы</a>
+    <a href="about.html">О нас</a>
+    <a href="contact.html">Контакты</a>
+  </nav>
+
+  <section class="section">
+    <h2>Каталог умных подушек</h2>
+    
+    <div class="products">
+      <div class="product-card">
+        <img src="pillow1.jpg" alt="SmartSleep X1" class="product-image">
+        <div class="product-content">
+          <h3>SmartSleep X1</h3>
+          <p>Многофункциональная подушка нового поколения. Встроенные датчики отслеживают фазы сна, уровень шума и движения. Функция мягкой вибрации помогает плавно пробуждаться в фазе легкого сна.</p>
+          
+          <ul class="product-features">
+            <li>Гипоаллергенная пена с эффектом памяти</li>
+            <li>Дышащий чехол из бамбукового волокна</li>
+            <li>Подключение к мобильному приложению</li>
+            <li>Аналитика сна и персональные рекомендации</li>
+          </ul>
+          
+          <div class="product-footer">
+            <div class="product-price">6 990 ₽</div>
+            <button class="request-button" onclick="openModal()">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <img src="pillow2.jpg" alt="RelaxPro" class="product-image">
+        <div class="product-content">
+          <h3>RelaxPro</h3>
+          <p>Термоподушка с функцией нагрева и встроенным шиацу-массажером. Поддерживает до 3 температурных режимов, что помогает снять стресс, облегчить головную боль и расслабить мышцы шеи.</p>
+          
+          <ul class="product-features">
+            <li>Латекс премиум-класса</li>
+            <li>Чехол из микрофибры</li>
+            <li>3 температурных режима</li>
+            <li>Шиацу-массажер</li>
+          </ul>
+          
+          <div class="product-footer">
+            <div class="product-price">8 490 ₽</div>
+            <button class="request-button" onclick="openModal()">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="product-card">
+        <img src="pillow3.jpg" alt="DreamCloud S3" class="product-image">
+        <div class="product-content">
+          <h3>DreamCloud S3</h3>
+          <p>Интеллектуальная ортопедическая подушка с технологией 3D-поддержки. Анализирует положение головы во сне и регулирует наполнение в реальном времени.</p>
+          
+          <ul class="product-features">
+            <li>Технология 3D-поддержки</li>
+            <li>Охлаждающий гель</li>
+            <li>Воздушные каналы для вентиляции</li>
+            <li>Автоматическая регулировка наполнения</li>
+          </ul>
+          
+          <div class="product-footer">
+            <div class="product-price">7 250 ₽</div>
+            <button class="request-button" onclick="openModal()">Оставить заявку</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 SmartPillowStore — Все права защищены</p>
+    <p>Политика конфиденциальности | Пользовательское соглашение</p>
+  </footer>
+
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="closeModal()">&times;</span>
+      <h3>Оформление заявки</h3>
+      <input type="text" id="name" placeholder="Ваше имя" required>
+      <input type="tel" id="phone" placeholder="Номер телефона" required>
+      <button onclick="submitForm()">Отправить</button>
+      <div class="thank-you" id="thankYou">Спасибо за заявку!</div>
+    </div>
+  </div>
+
+  <script>
+    function openModal() {
+      document.getElementById('modal').style.display = 'flex';
+      document.getElementById('thankYou').style.display = 'none';
+      document.getElementById('name').value = '';
+      document.getElementById('phone').value = '';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    function submitForm() {
+      const name = document.getElementById('name').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      if (name && phone) {
+        document.getElementById('thankYou').style.display = 'block';
+        setTimeout(closeModal, 2000);
+      }
+    }
+  </script>
+</body>
+</html>
